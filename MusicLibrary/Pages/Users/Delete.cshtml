@@ -1,0 +1,47 @@
+﻿@page
+@model MusicLibrary.Pages.Users.DeleteModel
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Delete user</h1>
+
+<form method="post">
+    <input asp-for="ApplicationUser.Id" hidden />
+    <div class=" border  backgroundWhite" style="padding:20px">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label asp-for="ApplicationUser.Name" class="text-info"></label>
+                </div>
+                <div class="col-sm-5">
+                    <input asp-for="ApplicationUser.Name" disabled class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-2">
+                    <label asp-for="ApplicationUser.Email" class="text-info"></label>
+                </div>
+                <div class="col-sm-5">
+                    <input asp-for="ApplicationUser.Email" disabled class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-5 offset-2">
+                <div class="row">
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-danger form-control">Delete</button>
+                    </div>
+                    <div class="col-6">
+                        <a asp-page="Index" class="btn btn-success form-control">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

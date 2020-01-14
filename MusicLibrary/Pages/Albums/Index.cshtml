@@ -1,0 +1,75 @@
+﻿@page
+@model MusicLibrary.Pages.Albums.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+@using MusicLibrary.Utility
+
+
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<h1>Album list</h1>
+@if (User.IsInRole(SD.AdminEndUser))
+{
+    <p>
+        <a asp-page="Create">Add new album</a>
+    </p>
+}
+<form method="get" asp-page="Index">
+    <div>
+        <div>
+            @Html.Editor("searchCriteria", new { htmlAttributes = new { @class = "form-control", placeholder = "Search...", style = "margin-bottom:10px" } })
+        </div>
+        <button type="submit" name="Submit" value="Search" class="btn btn-primary" style="margin-bottom:10px;">Search</button>
+        @if (HttpContext.Request.Query["searchCriteria"].ToString() != "")
+        {
+            <p><a asp-page="Index" asp-route-searchCriteria="">Clear searching</a></p>
+        }
+    </div>
+
+    @if (Model.AlbumVM.AlbumList.Count == 0)
+    {
+        <p>No albums found. Please add new album.</p>
+    }
+    else
+    {
+        <div style="display:flex; flex-wrap:wrap; justify-content:center;">
+
+            @foreach (var item in Model.AlbumVM.AlbumList)
+            {
+                <div style="width:200px; padding-bottom:10px; margin:10px; margin-top:30px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); text-align:center;">
+                    <img src='@Url.Content("~/covers/" + item.Name + ".jpg")' + .jpg' width="200" />
+                    <b>@Html.DisplayFor(modelItem => item.Name)</b><br />
+
+                    @Html.DisplayFor(modelItem => item.Artist)<br />
+
+                    <a asp-page="../Songs/Index" asp-route-albumId="@item.Id">View songs</a>
+                    @if (User.IsInRole(SD.AdminEndUser))
+                    {
+                        <b> | </b>
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a><b> | </b>
+                    }
+
+                    @if (User.IsInRole(SD.AdminEndUser))
+                    {
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete </a>
+                    }
+
+                </div>
+            }
+        </div>
+        <table style="margin-top:20px;">
+            <tr>
+                <td cospan="5">
+                    <div page-model="@Model.AlbumVM.PagingInfo" asp-action="Index" page-class="btn border"
+                         page-class-normal="btn btn-light" page-class-selected="btn btn-info active" class="btn-group">
+
+                    </div>
+
+                </td>
+            </tr>
+        </table>
+
+    }
+</form>

@@ -1,0 +1,38 @@
+﻿@page
+@model MusicLibrary.Pages.Songs.CreateModel
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Add song</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <input hidden asp-for="Song.AlbumId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Song.Name" class="control-label"></label>
+                <input asp-for="Song.Name" class="form-control" />
+                <span asp-validation-for="Song.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Song.TrackNumber" class="control-label"></label>
+                <input asp-for="Song.TrackNumber" class="form-control" />
+                <span asp-validation-for="Song.TrackNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index" asp-route-albumId="@Model.Song.AlbumId">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
